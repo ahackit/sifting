@@ -1,11 +1,21 @@
-<template> <Button></Button></template>
+<template>
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <div class="w-1/2 mx-auto flex flex-row justify-center mt-8">
+      <RecipeSearchInput></RecipeSearchInput>
+    </div>
+
+    <RecipeCardContainer></RecipeCardContainer>
+  </div>
+</template>
 
 <script>
-import Button from '~/components/Button.vue'
+import RecipeCardContainer from '~/components/RecipeCardContainer.vue'
+import RecipeSearchInput from '~/components/RecipeSearchInput.vue'
 
 export default {
   components: {
-    Button
+    RecipeSearchInput,
+    RecipeCardContainer
   }
 }
 </script>
