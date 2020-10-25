@@ -10,7 +10,7 @@ class Difficulty(models.Model):
         return self.type_txt
 
 
-class Genre(models.Model):
+class Cuisine(models.Model):
     type_txt = models.CharField(max_length=50)
 
     def __str__(self):
@@ -64,6 +64,7 @@ class Recipe(models.Model):
     img_link = models.CharField(max_length=255, null=True)
     difficulty = models.ForeignKey(
         "Difficulty", on_delete=models.SET_NULL, null=True)
-    genre = models.ForeignKey("Genre", on_delete=models.SET_NULL, null=True)
+    cuisine = models.ForeignKey(
+        "Cuisine", on_delete=models.SET_NULL, null=True)
     cookware = models.ManyToManyField("Cookware")
     ingredients = models.ManyToManyField("Ingredients")
