@@ -5,11 +5,12 @@ from rest_framework import serializers
 class RecipesSerializer(serializers.ModelSerializer):
     difficulty = serializers.StringRelatedField(many=False)
     cuisine = serializers.StringRelatedField(many=False)
+    main_image_url = serializers.CharField(read_only=True)
 
     class Meta:
         model = Recipe
         fields = ['title', 'description',
-                  'total_time', 'difficulty', 'cuisine']
+                  'total_time', 'difficulty', 'cuisine', 'main_image_url']
 
 
 class RecipeSerializer(serializers.ModelSerializer):

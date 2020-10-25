@@ -56,15 +56,24 @@ class Cookware(models.Model):
         return self.name
 
 
+def raw_image_path(instance, filename):
+    return f'recipes/{instance.id}/{filename}'
+
+
 class Recipe(models.Model):
     title = models.CharField(max_length=50)
     description = models.CharField(max_length=100)
     prep_time = models.IntegerField()
     total_time = models.IntegerField()
-    img_link = models.CharField(max_length=255, null=True)
+    main_image = models.ImageField(upload_to=raw_image_path, null=True)
     difficulty = models.ForeignKey(
         "Difficulty", on_delete=models.SET_NULL, null=True)
     cuisine = models.ForeignKey(
         "Cuisine", on_delete=models.SET_NULL, null=True)
     cookware = models.ManyToManyField("Cookware")
     ingredients = models.ManyToManyField("Ingredients")
+
+    def main_image_url(self):
+        if self.main_image:
+            return self.main_image.url
+        return ''

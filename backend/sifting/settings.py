@@ -11,6 +11,8 @@ https://docs.djangoproject.com/en/2.2/ref/settings/
 """
 
 import os
+import environ
+env = environ.Env()
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
@@ -27,6 +29,7 @@ DEBUG = True
 
 ALLOWED_HOSTS = []
 
+ROOT_DIR = environ.Path(__file__) - 2
 
 # Application definition
 
@@ -38,7 +41,8 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'sift',
-    'rest_framework'
+    'rest_framework',
+    'storages'
 ]
 
 MIDDLEWARE = [
@@ -120,7 +124,49 @@ USE_L10N = True
 USE_TZ = True
 
 
-# Static files (CSS, JavaScript, Images)
-# https://docs.djangoproject.com/en/2.2/howto/static-files/
+# STATIC FILE CONFIGURATION
+# ------------------------------------------------------------------------------
+# See: https://docs.djangoproject.com/en/dev/ref/settings/#static-root
+STATIC_ROOT = str(ROOT_DIR('staticfiles'))
 
-STATIC_URL = '/static/'
+# See: https://docs.djangoproject.com/en/dev/ref/settings/#static-url
+STATIC_URL = '/staticfiles/'
+DEFAULT_FILE_STORAGE = 'sifting.storage_backends.MediaStorage'
+
+
+# See: https://docs.djangoproject.com/en/dev/ref/contrib/staticfiles/#std:setting-STATICFILES_DIRS
+STATICFILES_DIRS = [
+    str(ROOT_DIR('static')),
+    str(ROOT_DIR('sifting/templates')),
+]
+
+# See: https://docs.djangoproject.com/en/dev/ref/contrib/staticfiles/#staticfiles-finders
+STATICFILES_FINDERS = [
+    'django.contrib.staticfiles.finders.FileSystemFinder',
+    'django.contrib.staticfiles.finders.AppDirectoriesFinder',
+]
+
+
+AWS_S3_REGION_NAME = 'us-east-1'
+AWS_ACCESS_KEY_ID = env.str('AWS_ACCESS_KEY_ID')
+AWS_SECRET_ACCESS_KEY = env.str('AWS_SECRET_ACCESS_KEY')
+AWS_STORAGE_BUCKET_NAME = env.str('AWS_STORAGE_BUCKET_NAME')
+AWS_QUERYSTRING_EXPIRE = 28800
+AWS_AUTO_CREATE_BUCKET = True
+LOCAL_HOST = bool(os.environ.get('LOCAL_HOST', False))
+
+
+if LOCAL_HOST:
+    STATICFILES_STORAGE = 'django.contrib.staticfiles.storage.StaticFilesStorage'
+else:
+    STATICFILES_STORAGE = 'sifting.storage_backends.StaticStorage'
+    AWS_S3_USE_SSL = True
+    AWS_S3_SIGNATURE_VERSION = 's3v4'
+
+# MEDIA CONFIGURATION
+# ------------------------------------------------------------------------------
+# See: https://docs.djangoproject.com/en/dev/ref/settings/#media-root
+MEDIA_ROOT = str(ROOT_DIR('media'))
+
+# See: https://docs.djangoproject.com/en/dev/ref/settings/#media-url
+MEDIA_URL = '/media/'
