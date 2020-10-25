@@ -4,7 +4,7 @@
       <RecipeSearchInput></RecipeSearchInput>
     </div>
 
-    <RecipeCardContainer></RecipeCardContainer>
+    <RecipeCardContainer :recipes="recipes"></RecipeCardContainer>
   </div>
 </template>
 
@@ -16,6 +16,20 @@ export default {
   components: {
     RecipeSearchInput,
     RecipeCardContainer
+  },
+  data() {
+    return {
+      recipes: []
+    }
+  },
+  mounted() {
+    this.fetchRecipes()
+  },
+  methods: {
+    async fetchRecipes() {
+      const recipes = await this.$axios.$get('recipes/')
+      this.recipes = recipes
+    }
   }
 }
 </script>

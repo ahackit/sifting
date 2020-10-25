@@ -27,7 +27,7 @@ SECRET_KEY = '_+opa6omnp64ez)7-a&bgq)eob2_4*9-%+zayagbx!@52824ao'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['*']
 
 ROOT_DIR = environ.Path(__file__) - 2
 
@@ -42,12 +42,14 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'sift',
     'rest_framework',
-    'storages'
+    'storages',
+    'corsheaders',
 ]
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
+    'corsheaders.middleware.CorsMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
@@ -170,3 +172,7 @@ MEDIA_ROOT = str(ROOT_DIR('media'))
 
 # See: https://docs.djangoproject.com/en/dev/ref/settings/#media-url
 MEDIA_URL = '/media/'
+
+
+CORS_ORIGIN_ALLOW_ALL = True
+CORS_ALLOW_CREDENTIALS = False

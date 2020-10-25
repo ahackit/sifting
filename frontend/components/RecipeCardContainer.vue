@@ -7,15 +7,11 @@
     </div>
     <div class="relative max-w-7xl mx-auto">
       <div class="grid gap-5 max-w-lg mx-auto lg:grid-cols-3 lg:max-w-none">
-        <RecipeCard></RecipeCard>
-        <RecipeCard></RecipeCard>
-        <RecipeCard></RecipeCard>
-        <RecipeCard></RecipeCard>
-        <RecipeCard></RecipeCard>
-        <RecipeCard></RecipeCard>
-        <RecipeCard></RecipeCard>
-        <RecipeCard></RecipeCard>
-        <RecipeCard></RecipeCard>
+        <RecipeCard
+          v-for="recipe in recipes"
+          :key="recipe.id"
+          :recipe="recipe"
+        ></RecipeCard>
       </div>
     </div>
   </div>
@@ -26,7 +22,8 @@ import RecipeCard from './RecipeCard.vue'
 
 export default {
   name: 'RecipeCardContainer',
-  components: { RecipeCard }
+  components: { RecipeCard },
+  props: ['recipes']
 }
 </script>
 
