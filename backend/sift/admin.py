@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import Difficulty, Genre, UOM, Amount, Grocery, Ingredients, Cookware, Recipe
+from .models import Difficulty, Cuisine, UOM, Amount, Grocery, Ingredients, Cookware, Recipe
 
 # Register your models here.
 
@@ -9,8 +9,8 @@ class DifficultyAdmin(admin.ModelAdmin):
     list_display = ('type_txt',)
 
 
-@admin.register(Genre)
-class GenreAdmin(admin.ModelAdmin):
+@admin.register(Cuisine)
+class CuisineAdmin(admin.ModelAdmin):
     list_display = ('type_txt',)
 
 
