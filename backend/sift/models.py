@@ -56,6 +56,12 @@ class Cookware(models.Model):
         return self.name
 
 
+class Step(models.Model):
+    recipe = models.ForeignKey("Recipe", on_delete=models.CASCADE)
+    description = models.CharField(max_length=500)
+    note = models.CharField(max_length=500, null=True)
+
+
 def raw_image_path(instance, filename):
     return f'recipes/{instance.id}/{filename}'
 
@@ -77,3 +83,6 @@ class Recipe(models.Model):
         if self.main_image:
             return self.main_image.url
         return ''
+
+    def steps(self):
+        return Step.objects.filter(recipe=self)

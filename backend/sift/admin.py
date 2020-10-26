@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import Difficulty, Cuisine, UOM, Amount, Grocery, Ingredients, Cookware, Recipe
+from .models import Difficulty, Cuisine, UOM, Amount, Grocery, Ingredients, Cookware, Recipe, Step
 
 # Register your models here.
 
@@ -39,6 +39,14 @@ class CookwareAdmin(admin.ModelAdmin):
     list_display = ('name',)
 
 
-@admin.register(Recipe)
+class StepAdmin(admin.StackedInline):
+    model = Step
+
+
 class RecipeAdmin(admin.ModelAdmin):
     list_display = ('title', 'description')
+    inlines = [StepAdmin]
+
+
+admin.site.register(Recipe, RecipeAdmin)
+admin.site.register(Step)

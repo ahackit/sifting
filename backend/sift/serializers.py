@@ -1,8 +1,15 @@
-from .models import Recipe
 from rest_framework import serializers
 
+from .models import Recipe, Step
 
-class RecipesSerializer(serializers.ModelSerializer):
+
+class StepSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Step
+        fields = '__all__'
+
+
+class RecipeListSerializer(serializers.ModelSerializer):
     difficulty = serializers.StringRelatedField(many=False)
     cuisine = serializers.StringRelatedField(many=False)
     main_image_url = serializers.CharField(read_only=True)
@@ -18,6 +25,7 @@ class RecipeSerializer(serializers.ModelSerializer):
     cuisine = serializers.StringRelatedField(many=False)
     cookware = serializers.StringRelatedField(many=True)
     ingredients = serializers.StringRelatedField(many=True)
+    steps = StepSerializer(many=True)
 
     class Meta:
         model = Recipe
