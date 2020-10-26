@@ -62,6 +62,22 @@ class Step(models.Model):
     note = models.CharField(max_length=500, null=True)
 
 
+class Dish_Category(models.Model):
+    type_txt = models.CharField(max_length=255)
+
+    def __str__(self):
+        return self.type_txt
+
+
+class Dish_Subcategory(models.Model):
+    dish_category = models.ForeignKey(
+        "Dish_Category", on_delete=models.CASCADE)
+    type_txt = models.CharField(max_length=255)
+
+    def __str__(self):
+        return self.type_txt
+
+
 def raw_image_path(instance, filename):
     return f'recipes/{instance.id}/{filename}'
 
@@ -71,7 +87,13 @@ class Recipe(models.Model):
     description = models.CharField(max_length=100)
     prep_time = models.IntegerField()
     total_time = models.IntegerField()
+    servings = models.IntegerField(null=True)
+    calories_per_serving = models.IntegerField(null=True)
     main_image = models.ImageField(upload_to=raw_image_path, null=True)
+    Dish_Category = models.ForeignKey(
+        "Dish_Category", on_delete=models.SET_NULL, null=True)
+    Dish_Subcategory = models.ForeignKey(
+        "Dish_Subcategory", on_delete=models.SET_NULL, null=True)
     difficulty = models.ForeignKey(
         "Difficulty", on_delete=models.SET_NULL, null=True)
     cuisine = models.ForeignKey(

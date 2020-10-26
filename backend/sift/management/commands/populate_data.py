@@ -3,7 +3,7 @@ import datetime
 
 from django.core.management.base import BaseCommand
 
-from ...models import Difficulty, Cuisine, UOM, Grocery, Cookware
+from ...models import Difficulty, Cuisine, UOM, Grocery, Cookware, Dish_Category, Dish_Subcategory
 
 
 def populate_difficulty():
@@ -68,6 +68,37 @@ def populate_cookware():
     Cookware.objects.get_or_create(name="dutch oven")
 
 
+def populate_categories():
+    dish, _ = Dish_Category.objects.get_or_create(type_txt='main')
+    Dish_Subcategory.objects.get_or_create(
+        dish_category=dish, type_txt='cheesy')
+    Dish_Subcategory.objects.get_or_create(dish_category=dish, type_txt='meat')
+    Dish_Subcategory.objects.get_or_create(
+        dish_category=dish, type_txt='poultry')
+    Dish_Subcategory.objects.get_or_create(dish_category=dish, type_txt='fish')
+    Dish_Subcategory.objects.get_or_create(dish_category=dish, type_txt='eggs')
+    Dish_Subcategory.objects.get_or_create(
+        dish_category=dish, type_txt='vegetarian')
+    Dish_Subcategory.objects.get_or_create(
+        dish_category=dish, type_txt='game day')
+    Dish_Subcategory.objects.get_or_create(
+        dish_category=dish, type_txt='breakfast')
+
+    dish, _ = Dish_Category.objects.get_or_create(type_txt='side')
+    Dish_Subcategory.objects.get_or_create(
+        dish_category=dish, type_txt='vegetables')
+    Dish_Subcategory.objects.get_or_create(
+        dish_category=dish, type_txt='potatoes')
+    Dish_Subcategory.objects.get_or_create(
+        dish_category=dish, type_txt='grains')
+    Dish_Subcategory.objects.get_or_create(
+        dish_category=dish, type_txt='salad')
+    Dish_Subcategory.objects.get_or_create(
+        dish_category=dish, type_txt='lentils')
+    Dish_Subcategory.objects.get_or_create(
+        dish_category=dish, type_txt='bread')
+
+
 class Command(BaseCommand):
     help = 'Populates Database with initial data.'
 
@@ -77,3 +108,4 @@ class Command(BaseCommand):
         populate_uom()
         populate_grocery()
         populate_cookware()
+        populate_categories()
