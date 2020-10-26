@@ -1,6 +1,6 @@
 <template>
   <div class="flex flex-col rounded-lg shadow-lg overflow-hidden">
-    <nuxt-link to="/recipes/1" class="block">
+    <nuxt-link :to="`recipes/${recipe.id}`" class="block">
       <div class="flex-shrink-0">
         <img :src="recipe.main_image_url" class="h-48 w-full object-cover" />
       </div>
