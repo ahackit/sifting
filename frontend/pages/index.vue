@@ -3,8 +3,7 @@
     <div class="w-1/2 mx-auto flex flex-row justify-center mt-8">
       <RecipeSearchInput></RecipeSearchInput>
     </div>
-
-    <RecipeCardContainer :recipes="recipes"></RecipeCardContainer>
+    <RecipeCardContainer :recipes="filteredRecipes"></RecipeCardContainer>
   </div>
 </template>
 
@@ -20,6 +19,40 @@ export default {
   data() {
     return {
       recipes: []
+    }
+  },
+  computed: {
+    parsedSearch() {
+      return this.$store.getters['search/parsedSearch']
+    },
+    filteredRecipes() {
+      let filterRecipes = [...this.recipes]
+      if (this.parsedSearch) {
+        filterRecipes = filterRecipes.filter((recipe) => {
+          let match = true
+          this.parsedSearch.forEach((search) => {
+            if (search.includes(':')) {
+              const keySearch = search.split(':')
+              if (
+                !(
+                  recipe[keySearch[0].toLowerCase()].toLowerCase() ===
+                  keySearch[1].toLowerCase()
+                )
+              ) {
+                match = false
+              }
+            } else if (
+              !recipe.title.toLowerCase().includes(search.toLowerCase())
+            ) {
+              match = false
+            }
+          })
+          if (match) {
+            return recipe
+          }
+        })
+      }
+      return filterRecipes
     }
   },
   mounted() {
