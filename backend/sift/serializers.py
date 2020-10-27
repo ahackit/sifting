@@ -25,6 +25,8 @@ class RecipeSerializer(serializers.ModelSerializer):
     cuisine = serializers.StringRelatedField(many=False)
     cookware = serializers.StringRelatedField(many=True)
     ingredients = serializers.StringRelatedField(many=True)
+    dish_category = serializers.StringRelatedField(many=False)
+    dish_subcategory = serializers.StringRelatedField(many=False)
     steps = StepSerializer(many=True)
     main_image_url = serializers.CharField(read_only=True)
 

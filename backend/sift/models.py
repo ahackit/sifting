@@ -59,7 +59,7 @@ class Cookware(models.Model):
 class Step(models.Model):
     recipe = models.ForeignKey("Recipe", on_delete=models.CASCADE)
     description = models.CharField(max_length=500)
-    note = models.CharField(max_length=500, null=True)
+    note = models.CharField(max_length=500, null=True, blank=True)
 
 
 class Dish_Category(models.Model):
@@ -90,9 +90,9 @@ class Recipe(models.Model):
     servings = models.IntegerField(null=True)
     calories_per_serving = models.IntegerField(null=True)
     main_image = models.ImageField(upload_to=raw_image_path, null=True)
-    Dish_Category = models.ForeignKey(
+    dish_category = models.ForeignKey(
         "Dish_Category", on_delete=models.SET_NULL, null=True)
-    Dish_Subcategory = models.ForeignKey(
+    dish_subcategory = models.ForeignKey(
         "Dish_Subcategory", on_delete=models.SET_NULL, null=True)
     difficulty = models.ForeignKey(
         "Difficulty", on_delete=models.SET_NULL, null=True)
