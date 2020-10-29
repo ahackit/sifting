@@ -1,10 +1,13 @@
 <template>
   <div class="flex flex-col rounded-lg shadow-lg overflow-hidden">
-    <nuxt-link :to="`recipes/${recipe.id}`" class="block">
-      <div class="flex-shrink-0">
+    <div class="flex-shrink-0">
+      <nuxt-link :to="`recipes/${recipe.id}`" class="block">
         <img :src="recipe.main_image_url" class="h-48 w-full object-cover" />
-      </div>
-      <div class="flex-1 bg-white p-6 flex flex-col justify-between">
+      </nuxt-link>
+    </div>
+
+    <div class="flex-1 bg-white p-6 flex flex-col justify-between">
+      <nuxt-link :to="`recipes/${recipe.id}`" class="block">
         <div class="flex flex-row flex-wrap">
           <p
             v-for="(v, k) in filteredRecipeKeys"
@@ -22,8 +25,18 @@
             {{ recipe.description }}
           </p>
         </div>
+      </nuxt-link>
+      <div class="mt-3">
+        <input
+          type="checkbox"
+          :name="`${recipe.id}-add-to-list`"
+          :id="`${recipe.id}-add-to-list`"
+          :checked="checked"
+          @change="(e) => addToGroceryChecked(e.target.checked, recipe)"
+        />
+        <label :for="`${recipe.id}-add-to-list`">Add to Groceries</label>
       </div>
-    </nuxt-link>
+    </div>
   </div>
 </template>
 
@@ -31,6 +44,11 @@
 export default {
   name: 'RecipeCard',
   props: ['recipe'],
+  data() {
+    return {
+      checked: false
+    }
+  },
   computed: {
     filteredRecipeKeys() {
       const values = []
@@ -50,6 +68,21 @@ export default {
       }
 
       return values
+    }
+  },
+  methods: {
+    addToGroceryChecked(checked, recipe) {
+      if (checked) {
+        this.$store.commit('grocery_list/addToGroceryList', recipe)
+        return
+      }
+
+      this.$store.commit('grocery_list/removeFromGroceryList', recipe)
+    }
+  },
+  mounted() {
+    if (this.$store.getters['grocery_list/findRecipe'](this.recipe)) {
+      this.checked = true
     }
   }
 }
