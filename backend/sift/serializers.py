@@ -13,11 +13,13 @@ class RecipeListSerializer(serializers.ModelSerializer):
     difficulty = serializers.StringRelatedField(many=False)
     cuisine = serializers.StringRelatedField(many=False)
     main_image_url = serializers.CharField(read_only=True)
+    dish_category = serializers.StringRelatedField(many=False)
+    dish_subcategory = serializers.StringRelatedField(many=False)
 
     class Meta:
         model = Recipe
         fields = ['id', 'title', 'description',
-                  'total_time', 'difficulty', 'cuisine', 'main_image_url']
+                  'total_time', 'difficulty', 'cuisine', 'main_image_url', 'dish_category', 'dish_subcategory']
 
 
 class RecipeSerializer(serializers.ModelSerializer):
