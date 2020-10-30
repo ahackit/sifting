@@ -20,6 +20,7 @@ from sift import views
 
 router = routers.DefaultRouter()
 router.register(r'recipes', views.RecipeViewSet)
+router.register(r'uoms', views.UOMViewSet)
 
 urlpatterns = [
     path('', include(router.urls)),
