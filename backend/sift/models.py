@@ -19,6 +19,16 @@ class Cuisine(models.Model):
 
 class UOM(models.Model):
     measurement = models.CharField(max_length=20)
+    conversion_type = models.CharField(max_length=50, null=True)
+    multiplier = models.FloatField(null=True)
+
+    class Meta:
+        constraints = [models.UniqueConstraint(
+            fields=['measurement'],  name='unique_measurement_name')]
+
+    def convert_to(self, start_uom_numer, end_uom_txt):
+        first_to_ml = self.multiplier * float(start_uom_numer)
+        return round(first_to_ml / UOM.objects.get(measurement=end_uom_txt).multiplier, 4)
 
     def __str__(self):
         return self.measurement

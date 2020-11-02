@@ -23,27 +23,28 @@ def populate_cuisine():
 
 
 def populate_uom():
-    UOM.objects.get_or_create(measurement='teaspoon')
-    UOM.objects.get_or_create(measurement='tablespoon')
-    UOM.objects.get_or_create(measurement='fluid ounce')
-    UOM.objects.get_or_create(measurement='gill')
-    UOM.objects.get_or_create(measurement='cup')
-    UOM.objects.get_or_create(measurement='pint')
-    UOM.objects.get_or_create(measurement='quart')
-    UOM.objects.get_or_create(measurement='gallon')
-    UOM.objects.get_or_create(measurement='ml')
-    UOM.objects.get_or_create(measurement='l')
-    UOM.objects.get_or_create(measurement='dl')
-    UOM.objects.get_or_create(measurement='pound')
-    UOM.objects.get_or_create(measurement='ounce')
-    UOM.objects.get_or_create(measurement='mg')
-    UOM.objects.get_or_create(measurement='g')
-    UOM.objects.get_or_create(measurement='kg')
-    UOM.objects.get_or_create(measurement='mm')
-    UOM.objects.get_or_create(measurement='cm')
-    UOM.objects.get_or_create(measurement='m')
-    UOM.objects.get_or_create(measurement='inch')
-    UOM.objects.get_or_create(measurement='can')
+    UOM.objects.get_or_create(measurement='teaspoon',
+                              conversion_type='volume', multiplier=5)
+    UOM.objects.get_or_create(measurement='tablespoon',
+                              conversion_type='volume', multiplier=15)
+    UOM.objects.get_or_create(
+        measurement='cup', conversion_type='volume', multiplier=237)
+    UOM.objects.get_or_create(
+        measurement='pint', conversion_type='volume', multiplier=473)
+    UOM.objects.get_or_create(
+        measurement='quart', conversion_type='volume', multiplier=946)
+    UOM.objects.get_or_create(measurement='gallon',
+                              conversion_type='volume', multiplier=3800)
+    UOM.objects.get_or_create(
+        measurement='ml', conversion_type='volume', multiplier=.2)
+    UOM.objects.get_or_create(
+        measurement='l', conversion_type='volume', multiplier=1000)
+    UOM.objects.get_or_create(
+        measurement='ounce', conversion_type='weight', multiplier=28)
+    UOM.objects.get_or_create(
+        measurement='pound', conversion_type='weight', multiplier=454)
+    UOM.objects.get_or_create(
+        measurement='g', conversion_type='weight', multiplier=.035)
 
 
 def populate_grocery():
