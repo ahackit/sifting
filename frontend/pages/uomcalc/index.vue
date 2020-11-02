@@ -3,8 +3,14 @@
     <div class="w-1/2 mx-auto flex flex-row justify-center mt-8">
       <div>
         <p>Convert</p>
-        <input class="border" type="number" name="amount-uom" id="amount-uom" />
-        <select class="border" name="uom-type" id="uom-type">
+        <input
+          class="border"
+          type="number"
+          name="amount-uom"
+          id="amount-uom"
+          v-model="amountUOM"
+        />
+        <select class="border" name="uom-type" id="uom-type" v-model="startUOM">
           <option
             v-for="option in options"
             :value="option.measurement"
@@ -13,7 +19,7 @@
           >
         </select>
         <p>To</p>
-        <select class="border" name="uom-type" id="uom-type">
+        <select class="border" name="uom-type" id="uom-type" v-model="endUOM">
           <option
             v-for="option in options"
             :value="option.measurement"
@@ -21,10 +27,10 @@
             >{{ option.measurement }}</option
           >
         </select>
-        <button>Generate</button>
+        <button @click="getConversion">Generate</button>
       </div>
       <div>
-        <p>Results:</p>
+        <p>Results: {{ conversionResults }}</p>
       </div>
     </div>
   </div>
@@ -34,12 +40,24 @@
 export default {
   data() {
     return {
-      options: []
+      options: [],
+      startUOM: '',
+      endUOM: '',
+      amountUOM: 0,
+      conversionResults: ''
     }
   },
   async mounted() {
     const response = await this.$axios.get('/uoms')
     this.options = response.data
+  },
+  methods: {
+    async getConversion() {
+      const response = await this.$axios.get(
+        `/uoms/convert/?start_uom_number=${this.amountUOM}&start_uom=${this.startUOM}&end_uom=${this.endUOM}`
+      )
+      this.conversionResults = response.data
+    }
   }
 }
 </script>
