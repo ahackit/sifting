@@ -3,7 +3,7 @@ from rest_framework import viewsets
 from rest_framework.response import Response
 from rest_framework.decorators import action
 from .models import Recipe, UOM
-from .serializers import RecipeListSerializer, RecipeSerializer, UOMSerializer
+from .serializers import RecipeListSerializer, RecipeSerializer, UOMSerializer, RecipeGroceryListSerializer
 
 # Create your views here.
 
@@ -15,6 +15,13 @@ class RecipeViewSet(viewsets.ReadOnlyModelViewSet):
     def retrieve(self, request, *args, **kwargs):
         instance = self.get_object()
         serializer = RecipeSerializer(instance)
+        return Response(serializer.data)
+
+    @action(detail=True, methods=['get'])
+    def grocerylist(self, request, pk=None):
+        recipe = Recipe.objects.get(id=pk)
+
+        serializer = RecipeGroceryListSerializer(recipe)
         return Response(serializer.data)
 
 

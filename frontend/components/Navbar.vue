@@ -5,8 +5,10 @@
     </div>
     <div class="w-1/4 text-center flex flex-row justify-between">
       <nuxt-link to="/" class="font-bold text-sm">Recipes</nuxt-link>
-      <nuxt-link to="/" class="font-bold text-sm">UOM Calc</nuxt-link>
-      <nuxt-link to="/" class="font-bold text-sm">Grocery Planner</nuxt-link>
+      <nuxt-link to="/uomcalc" class="font-bold text-sm">UOM Calc</nuxt-link>
+      <nuxt-link to="/grocerylist" class="font-bold text-sm"
+        >Grocery Planner</nuxt-link
+      >
     </div>
   </nav>
 </template>
