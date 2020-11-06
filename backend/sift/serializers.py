@@ -1,6 +1,6 @@
 from rest_framework import serializers
 
-from .models import Recipe, Step, UOM, Ingredients
+from .models import Recipe, Step, UOM, Ingredients, Amount, Grocery
 
 
 class StepSerializer(serializers.ModelSerializer):
@@ -43,7 +43,22 @@ class RecipeSerializer(serializers.ModelSerializer):
         fields = '__all__'
 
 
+class AmountSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Amount
+        fields = '__all__'
+
+
+class GrocerySerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Grocery
+        fields = '__all__'
+
+
 class IngredientSerializer(serializers.ModelSerializer):
+    amount = AmountSerializer(many=False)
+    grocery = GrocerySerializer(many=False)
+
     class Meta:
         model = Ingredients
         fields = '__all__'
