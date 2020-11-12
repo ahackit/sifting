@@ -1,6 +1,6 @@
 <template>
   <div>
-    <div>
+    <div class="text-center">
       <p v-for="recipe in sortedFetchedRecipes" :key="recipe.name">
         {{ recipe.grocery }}
         {{ recipe.name }}
