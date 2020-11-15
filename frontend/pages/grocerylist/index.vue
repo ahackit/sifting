@@ -1,12 +1,30 @@
 <template>
   <div>
-    <div class="text-center">
-      <p v-for="recipe in sortedFetchedRecipes" :key="recipe.name">
-        {{ recipe.grocery }}
-        {{ recipe.name }}
-        {{ recipe.amount }}
-        {{ recipe.uom }}
-      </p>
+    <div class="text-center flex justify-center">
+      <table class="border-orange-200 border table-auto">
+        <thead>
+          <th class="px-4 py-2">Type</th>
+          <th class="px-4 py-2">Name</th>
+          <th class="px-4 py-2">Amount</th>
+          <th class="px-4 py-2">UOM</th>
+        </thead>
+        <tbody>
+          <tr v-for="recipe in sortedFetchedRecipes" :key="recipe.name">
+            <td class="td border border-orange-200 px-4 py-2">
+              {{ recipe.grocery }}
+            </td>
+            <td class="td border border-orange-200 px-4 py-2">
+              {{ recipe.name }}
+            </td>
+            <td class="td border border-orange-200 px-4 py-2">
+              {{ recipe.amount }}
+            </td>
+            <td class="td border border-orange-200 px-4 py-2">
+              {{ recipe.uom }}
+            </td>
+          </tr>
+        </tbody>
+      </table>
     </div>
   </div>
 </template>

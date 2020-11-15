@@ -12,7 +12,7 @@
           <p
             v-for="(v, k) in filteredRecipeKeys"
             :key="k"
-            class="bg-gray-200 border w-1/5 text-center text-xs inline mr-2"
+            class=" bg-orange-200 text-center text-xs mr-2 mt-2 px-2 inline-block uppercase font-thin"
           >
             {{ v }}
           </p>

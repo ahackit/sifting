@@ -1,10 +1,10 @@
 <template>
-  <div class="grid grid-cols-1/3-2/3 border border-gray-200 p-4">
-    <div class="border-r pr-4">
+  <div class="grid grid-cols-1/3-2/3 border border-orange-200 p-4">
+    <div class="border-r  border-orange-200 pr-4">
       <div class="flex-shrink-0">
-        <img :src="recipe.main_image_url" class="h-48 w-full object-cover" />
+        <img :src="recipe.main_image_url" class="h-48 w-full object-cover " />
       </div>
-      <p class="font-bold">Details</p>
+      <p class="font-bold mt-2">Details</p>
       <ul class="grid grid-cols-2 grid-rows-4 mb-4">
         <li>Cuisine: {{ recipe.cuisine }}</li>
         <li>Category: {{ recipe.dish_category }}</li>

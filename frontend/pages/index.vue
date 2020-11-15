@@ -1,5 +1,6 @@
 <template>
   <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <h1 class="text-4xl text-orange-600 text-center">Sifting</h1>
     <div class="w-1/2 mx-auto flex flex-row justify-center mt-8">
       <RecipeSearchInput></RecipeSearchInput>
     </div>

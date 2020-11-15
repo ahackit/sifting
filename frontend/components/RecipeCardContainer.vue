@@ -5,9 +5,10 @@
     <div class="absolute inset-0">
       <div class="bg-white h-1/3 sm:h-2/3"></div>
     </div>
-    <div class="relative max-w-7xl mx-auto">
-      <div class="grid gap-5 max-w-lg mx-auto lg:grid-cols-3 lg:max-w-none">
+    <div class="relative max-w-7xl mx-auto ">
+      <div class="flex justify-center flex-wrap">
         <RecipeCard
+          class="mr-4 mb-4"
           v-for="recipe in recipes"
           :key="recipe.id"
           :recipe="recipe"
