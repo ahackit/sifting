@@ -1,4 +1,10 @@
 version: 2.1
+
+orbs:
+  aws-ecr: circleci/aws-ecr@x.y.z
+  aws-ecs: circleci/aws-ecs@0x.y.z
+  aws-s3: circleci/aws-s3@2.0.0
+
 jobs:
   build:
     working_directory: ~/repo
@@ -8,12 +14,14 @@ jobs:
       - checkout
       - run:
           name: update-npm
-          command: 'sudo npm install -g npm@5'
+          command: "sudo npm install -g npm@5"
       - restore_cache:
           key: dependency-cache-{{ checksum "package-lock.json" }}
       - run:
           name: install-packages
-          command: npm install
+          command: |
+            cd frontend
+            npm install
       - save_cache:
           key: dependency-cache-{{ checksum "package-lock.json" }}
           paths:
@@ -35,7 +43,9 @@ jobs:
           key: dependency-cache-{{ checksum "package-lock.json" }}
       - run:
           name: test
-          command: npm run test
+          command: |
+            cd backend
+            npm run test
   deploy:
     working_directory: ~/repo
     docker:
@@ -49,95 +59,47 @@ jobs:
           key: dependency-cache-{{ checksum "package-lock.json" }}
       - run:
           name: build-project
-          command: npm run generate
+          command: |
+            cd frontend
+            npm run generate
       - run:
           name: Deploy to S3
           command: |
+            cd frontend
             curl "https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip" -o "awscliv2.zip"
             unzip awscliv2.zip
             sudo ./aws/install
-            aws s3 cp dist s3://sifting-frontend --recursive
-
-workflows:
-  version: 2
-  build-deploy:
-    jobs:
-      - build
-      - test:
-          requires:
-            - build
-      - deploy:
-          filters:
-            branches:
-              only: master
-          requires:
-            - build
-            - test
-
-
-version: 2.1
-jobs:
-  build:
-    working_directory: ~/repo
+            aws s3 cp dist s3://${S3_DIRECTORY} --recursive
+  build-backend:
     docker:
-      - image: circleci/node:10.16.3
+      - image: circleci/python:3.7.4
+    working_directory: ~/code
     steps:
       - checkout
-      - run:
-          name: update-npm
-          command: 'sudo npm install -g npm@5'
+      # Download and cache dependencies
       - restore_cache:
-          key: dependency-cache-{{ checksum "package-lock.json" }}
+          keys:
+            - v1-dependencies-{{ checksum "requirements.txt" }}
+            # fallback to using the latest cache if no exact match is found
+            - v1-dependencies-
       - run:
-          name: install-packages
-          command: npm install
+          name: install dependencies
+          command: |
+            cd backend
+            python3 -m venv venv
+            . venv/bin/activate
+            pip install -r requirements.txt
       - save_cache:
-          key: dependency-cache-{{ checksum "package-lock.json" }}
           paths:
-            - ./node_modules
+            - venv
+          key: v1-dependencies-{{ checksum "requirements.txt" }}
       - persist_to_workspace:
           root: .
           paths:
             - .
-  test:
-    working_directory: ~/repo
-    docker:
-      - image: circleci/node:10.16.3
-    steps:
-      - setup_remote_docker:
-          docker_layer_caching: false
-      - attach_workspace:
-          at: ~/repo
-      - restore_cache:
-          key: dependency-cache-{{ checksum "package-lock.json" }}
-      - run:
-          name: test
-          command: npm run test
-  deploy:
-    working_directory: ~/repo
-    docker:
-      - image: circleci/node:10.16.3
-    steps:
-      - setup_remote_docker:
-          docker_layer_caching: false
-      - attach_workspace:
-          at: ~/repo
-      - restore_cache:
-          key: dependency-cache-{{ checksum "package-lock.json" }}
-      - run:
-          name: build-project
-          command: npm run generate
-      - run:
-          name: Deploy to S3
-          command: |
-            curl "https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip" -o "awscliv2.zip"
-            unzip awscliv2.zip
-            sudo ./aws/install
-            aws s3 cp dist s3://sifting-frontend --recursive
 
 workflows:
-  version: 2
-  build-deploy:
+  build-test-deploy:
     jobs:
       - build
       - test:
@@ -150,3 +112,9 @@ workflows:
           requires:
             - build
             - test
+      - build-backend
+      - aws-ecr/build-and-push-image:
+          repo: "${AWS_RESOURCE_NAME_PREFIX}"
+          tag: "${CIRCLE_SHA1}"
+          dockerfile: web.Dockerfile
+          path: backend/
