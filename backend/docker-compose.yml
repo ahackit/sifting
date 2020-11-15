@@ -11,17 +11,11 @@ services:
     build:
       context: .
       dockerfile: web.Dockerfile
-    command: python manage.py runserver 0.0.0.0:8000
-    environment:
-      - DB_ENGINE=django.db.backends.postgresql
-      - DB_NAME=postgres
-      - DB_USER=postgres
-      - DB_PASSWORD=postgres
-      - DB_HOST=db
+    command: python manage.py runserver 0.0.0.0:8800
     volumes:
       - .:/code
     ports:
-      - "8000:8000"
+      - "8800:8800"
     env_file: .env
     depends_on:
       - db
