@@ -157,6 +157,8 @@ AWS_QUERYSTRING_EXPIRE = 28800
 AWS_AUTO_CREATE_BUCKET = True
 LOCAL_HOST = bool(os.environ.get('LOCAL_HOST', False))
 
+AWS_DEFAULT_ACL = None
+
 
 if LOCAL_HOST:
     STATICFILES_STORAGE = 'django.contrib.staticfiles.storage.StaticFilesStorage'
