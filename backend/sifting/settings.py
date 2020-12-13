@@ -31,6 +31,8 @@ ALLOWED_HOSTS = ['*']
 
 ROOT_DIR = environ.Path(__file__) - 2
 
+ADMINS = [['ahackit', 'ahackit@gmail.com']]
+
 # Application definition
 
 INSTALLED_APPS = [
@@ -129,16 +131,14 @@ USE_TZ = True
 # STATIC FILE CONFIGURATION
 # ------------------------------------------------------------------------------
 # See: https://docs.djangoproject.com/en/dev/ref/settings/#static-root
-STATIC_ROOT = str(ROOT_DIR('staticfiles'))
-
-# See: https://docs.djangoproject.com/en/dev/ref/settings/#static-url
-STATIC_URL = '/staticfiles/'
 DEFAULT_FILE_STORAGE = 'sifting.storage_backends.MediaStorage'
+
+STATIC_URL = '/static/'
+STATIC_ROOT = os.path.join(BASE_DIR, 'static')
 
 
 # See: https://docs.djangoproject.com/en/dev/ref/contrib/staticfiles/#std:setting-STATICFILES_DIRS
 STATICFILES_DIRS = [
-    str(ROOT_DIR('static')),
     str(ROOT_DIR('sifting/templates')),
 ]
 
@@ -149,7 +149,7 @@ STATICFILES_FINDERS = [
 ]
 
 
-AWS_S3_REGION_NAME = 'us-east-1'
+AWS_S3_REGION_NAME = 'us-east-2'
 AWS_ACCESS_KEY_ID = env.str('AWS_ACCESS_KEY_ID')
 AWS_SECRET_ACCESS_KEY = env.str('AWS_SECRET_ACCESS_KEY')
 AWS_STORAGE_BUCKET_NAME = env.str('AWS_STORAGE_BUCKET_NAME')
