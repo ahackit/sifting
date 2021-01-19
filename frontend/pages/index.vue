@@ -28,7 +28,7 @@ export default {
     },
     filteredRecipes() {
       let filterRecipes = [...this.recipes]
-      if (this.parsedSearch) {
+      if (this.parsedSearch[0] !== '') {
         filterRecipes = filterRecipes.filter((recipe) => {
           let match = true
           this.parsedSearch.forEach((search) => {

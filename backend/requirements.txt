@@ -8,3 +8,6 @@ botocore==1.12.209
 django-environ==0.4.5
 Pillow
 django-cors-headers==3.0.2
+psycopg2-binary
+Werkzeug
+django-environ

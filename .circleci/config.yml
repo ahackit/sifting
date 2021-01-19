@@ -112,18 +112,18 @@ workflows:
           requires:
             - build
             - test
-      - build-backend
-      - aws-ecr/build-and-push-image:
-          repo: "${AWS_RESOURCE_NAME_PREFIX}"
-          tag: "${CIRCLE_SHA1}"
-          dockerfile: web.Dockerfile
-          path: backend/
-          requires:
-            - build-backend
-      - aws-ecs/deploy-service-update:
-          requires:
-            - aws-ecr/build-and-push-image # only run this job once aws-ecr/build-and-push-image has completed
-          family: "${AWS_TASK_FAMILY_NAME}"
-          cluster-name: "${AWS_RESOURCE_NAME_PREFIX}-cluster"
-          service-name: "${AWS_SERVICE_NAME}"
-          container-image-name-updates: "container=${AWS_RESOURCE_NAME_PREFIX},tag=${CIRCLE_SHA1}"
+      # - build-backend
+      # - aws-ecr/build-and-push-image:
+      #     repo: "${AWS_RESOURCE_NAME_PREFIX}"
+      #     tag: "${CIRCLE_SHA1}"
+      #     dockerfile: web.Dockerfile
+      #     path: backend/
+      #     requires:
+      #       - build-backend
+      # - aws-ecs/deploy-service-update:
+      #     requires:
+      #       - aws-ecr/build-and-push-image # only run this job once aws-ecr/build-and-push-image has completed
+      #     family: "${AWS_TASK_FAMILY_NAME}"
+      #     cluster-name: "${AWS_RESOURCE_NAME_PREFIX}-cluster"
+      #     service-name: "${AWS_SERVICE_NAME}"
+      #     container-image-name-updates: "container=${AWS_RESOURCE_NAME_PREFIX},tag=${CIRCLE_SHA1}"
